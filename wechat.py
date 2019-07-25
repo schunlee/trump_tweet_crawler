@@ -18,7 +18,12 @@ def send_msg(iciba_everyday):
     appid = ""
     appsecret = ""
 
-    for openid in ["orIO9wWe_Hw6JUxK__G1TECtuhz0","orIO9weLKbbFOnk2fu3rM-9Ub04I","orIO9wedXgymyBdilIRftHRrYzKs"]:
+    access_token = get_access_token(appid, appsecret)
+    subscription_ids = \
+    requests.get("https://api.weixin.qq.com/cgi-bin/user/get?access_token={}&next_openid=".format(access_token)).json()[
+        "data"]["openid"]
+
+    for openid in subscription_ids:
         msg = {
             "touser": openid,
             "msgtype": "text",
@@ -34,7 +39,7 @@ def send_msg(iciba_everyday):
         access_token = get_access_token(appid, appsecret)
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s' % str(access_token)
         result = requests.post(url, json_data).json()
-        return result
+        print result
 
 
 if __name__ == '__main__':
